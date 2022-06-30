@@ -5,17 +5,17 @@ on:
       - main
     paths:
       - '**.ts'
-      - '**.vue'
+      - '**.tsx'
       - '**/tsconfig.json'
       - 'package-lock.json'
-      - '.github/workflows/typechecking.yml'
+      # - '.github/workflows/typechecking.yml'
   pull_request:
     paths:
       - '**.ts'
-      - '**.vue'
+      - '**.tsx'
       - '**/tsconfig.json'
       - 'package-lock.json'
-      - '.github/workflows/typechecking.yml'
+      # - '.github/workflows/typechecking.yml'
 
 defaults:
   run:
@@ -36,4 +36,4 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - run: npm run typecheck
+      # - run: npm run typecheck
