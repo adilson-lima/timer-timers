@@ -1,6 +1,6 @@
 {
-  "name": "electron-reactjs-vite",
-  "description": "Boilerplate Electron, React and Vite",
+  "name": "time-timers",
+  "description": "Time timers",
   "private": true,
   "engines": {
     "node": ">=v16.13",
@@ -48,6 +48,8 @@
   },
   "dependencies": {
     "electron-updater": "5.0.5",
+    "highcharts": "^10.1.0",
+    "highcharts-react-official": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

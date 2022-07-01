@@ -1,0 +1,29 @@
+.main {
+  width: 15rem;
+  height: 15rem;
+  border: 0px solid var(--gray-100);
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--green-500);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  -webkit-app-region: drag;
+}
+
+.button {
+  border: 0;
+  background: transparent;
+  color: var(--white);
+
+  padding: 16px;
+
+  transition: 0.1s;
+}
+
+.button:hover {
+  cursor: pointer;
+  color: var(--gray-300);
+}
