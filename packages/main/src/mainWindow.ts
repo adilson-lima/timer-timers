@@ -5,7 +5,7 @@ import { URL } from 'url';
 async function createWindow() {
   const browserWindow = new BrowserWindow({
     show: false, // Use 'ready-to-show' event to show window
-    vibrancy: 'under-window',
+    // vibrancy: 'under-window',
 
     visualEffectState: 'active',
     webPreferences: {
@@ -18,6 +18,10 @@ async function createWindow() {
     transparent: true,
     resizable: false
   });
+
+  // Window on top
+  browserWindow.setAlwaysOnTop(true, 'floating', 1);
+  browserWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
 
   /**
    * If you install `show: true` then it can cause issues when trying to close the window.

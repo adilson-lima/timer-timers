@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as Highcharts from 'highcharts';
+import Highcharts from 'highcharts';
 import HighchartsMore from 'highcharts/highcharts-more';
 import SolidGauge from 'highcharts/modules/solid-gauge';
 import HighchartsReact from 'highcharts-react-official';
@@ -10,6 +10,8 @@ import styles from './App.module.css';
 
 HighchartsMore(Highcharts);
 SolidGauge(Highcharts);
+
+const TIMER_IN_MINUTES = 50;
 
 export function App() {
   const [timerVerify, setTimerVerify] = useState(false);
@@ -123,14 +125,14 @@ export function App() {
   }
 
   useEffect(() => {
-    if (currentTimer <= 60) {
+    if (currentTimer <= TIMER_IN_MINUTES) {
       const timer = setTimeout(() => {
         console.log('updateChart');
         setTimerVerify(!timerVerify);
         setCurrentTimer(currentTimer + 1);
         updateChart();
         console.log(currentTimer);
-      }, 60 * 1 * 1000);
+      }, TIMER_IN_MINUTES * 1 * 1000);
 
       return () => clearTimeout(timer);
     }
@@ -143,8 +145,7 @@ export function App() {
   return (
     <>
       <div className={styles.main}>
-        {/* <span>xxxx</span> */}
-        {chartSolidGaugeOptions && currentTimer <= 60 ? (
+        {chartSolidGaugeOptions && currentTimer <= TIMER_IN_MINUTES ? (
           <HighchartsReact
             highcharts={Highcharts}
             options={chartSolidGaugeOptions}

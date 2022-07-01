@@ -4,7 +4,8 @@
   border: 0px solid var(--gray-100);
   border-radius: 50%;
   overflow: hidden;
-  background: var(--green-500);
+  /* background: var(--green-500); */
+  background: transparent;
 
   display: flex;
   align-items: center;
