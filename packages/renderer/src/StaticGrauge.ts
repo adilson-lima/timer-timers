@@ -2,7 +2,7 @@ export const StaticGauge = {
   chart: {
     renderTo: 'container',
     type: 'solidgauge',
-    height: '53%',
+    height: '54%',
 
     // spacingBottom: 0,
     spacingTop: 15,
@@ -60,7 +60,7 @@ export const StaticGauge = {
 
   yAxis: {
     min: 0,
-    max: 60,
+    max: 60 * (60 / 3),
     lineWidth: 0,
     tickPositions: [],
     labels: {

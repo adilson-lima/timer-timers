@@ -10,7 +10,8 @@ async function createWindow() {
     visualEffectState: 'active',
     webPreferences: {
       webviewTag: false, // The webview tag is not recommended. Consider alternatives like iframe or Electron's BrowserView. https://www.electronjs.org/docs/latest/api/webview-tag#warning
-      preload: join(__dirname, '../../preload/dist/index.cjs')
+      preload: join(__dirname, '../../preload/dist/index.cjs'),
+      nodeIntegration: true
     },
     width: 240,
     height: 240,

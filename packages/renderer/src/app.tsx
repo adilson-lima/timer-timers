@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+// import { getCurrentWindow } from '@electron/remote';
+// import { enabled } from '@electron/remote/main';
 import Highcharts from 'highcharts';
 import HighchartsMore from 'highcharts/highcharts-more';
 import SolidGauge from 'highcharts/modules/solid-gauge';
@@ -12,11 +14,12 @@ HighchartsMore(Highcharts);
 SolidGauge(Highcharts);
 
 const TIMER_IN_MINUTES = 50;
+const TIMER_IN_SECONDS = TIMER_IN_MINUTES * (60 / 3);
 
 export function App() {
-  const [timerVerify, setTimerVerify] = useState(false);
-  const [currentTimer, setCurrentTimer] = useState(0);
-  // const [oldTimer, setOldTimer] = useState(new Date().getTime());
+  const [updateTimer, setUpdateTimer] = useState(false);
+  const [currentTimer, setCurrentTimer] = useState(TIMER_IN_SECONDS);
+  const [showChart, setShowChart] = useState(true);
 
   const [chartSolidGaugeOptions, setSolidGaugeOptions] = useState(
     StaticGauge as any
@@ -27,7 +30,7 @@ export function App() {
       chart: {
         renderTo: 'container',
         type: 'solidgauge',
-        height: '53%',
+        height: '54%',
 
         // spacingBottom: 0,
         spacingTop: 15,
@@ -73,7 +76,7 @@ export function App() {
 
       yAxis: {
         min: 0,
-        max: 60,
+        max: TIMER_IN_MINUTES * (60 / 3),
         lineWidth: 0,
         tickPositions: [],
         labels: {
@@ -120,23 +123,36 @@ export function App() {
     });
   }
 
-  function handleStart() {
+  function handleStartOrReset() {
     setCurrentTimer(0);
   }
 
-  useEffect(() => {
-    if (currentTimer <= TIMER_IN_MINUTES) {
-      const timer = setTimeout(() => {
-        console.log('updateChart');
-        setTimerVerify(!timerVerify);
-        setCurrentTimer(currentTimer + 1);
-        updateChart();
-        console.log(currentTimer);
-      }, TIMER_IN_MINUTES * 1 * 1000);
+  function handleStop() {
+    setCurrentTimer(TIMER_IN_SECONDS);
+  }
 
-      return () => clearTimeout(timer);
+  // const handleClose = useCallback(() => {
+  //   // getCurrentWindow().close();
+  // }, []);
+
+  // function handleClose() {
+  //   setCurrentTimer(0);
+  // }
+
+  useEffect(() => {
+    if (currentTimer <= TIMER_IN_SECONDS) {
+      setCurrentTimer(currentTimer + 3);
+      setShowChart(true);
+      updateChart();
+    } else {
+      setShowChart(false);
     }
-  }, [timerVerify, currentTimer]);
+
+    const timer = setTimeout(() => {
+      setUpdateTimer(!updateTimer);
+    }, 3 * 1000);
+    return () => clearTimeout(timer);
+  }, [updateTimer]);
 
   useEffect(() => {
     updateChart();
@@ -145,13 +161,38 @@ export function App() {
   return (
     <>
       <div className={styles.main}>
-        {chartSolidGaugeOptions && currentTimer <= TIMER_IN_MINUTES ? (
-          <HighchartsReact
-            highcharts={Highcharts}
-            options={chartSolidGaugeOptions}
-          />
+        {chartSolidGaugeOptions && showChart ? (
+          <>
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={chartSolidGaugeOptions}
+            ></HighchartsReact>
+            <div className={`${styles.buttonContainer}`}>
+              <button
+                className={`${styles.button} ${styles['button-close-reset']}`}
+                onClick={handleStartOrReset}
+              >
+                Reset
+              </button>
+              <button
+                className={`${styles.button} ${styles['button-close-reset']}`}
+                onClick={handleStop}
+              >
+                Stop
+              </button>
+              {/* <button
+                className={`${styles.button} ${styles['button-close-reset']}`}
+                onClick={handleClose}
+              >
+                Close
+              </button> */}
+            </div>
+          </>
         ) : (
-          <button className={styles.button} onClick={handleStart}>
+          <button
+            className={`${styles.button} ${styles['button-start']}`}
+            onClick={handleStartOrReset}
+          >
             Start
           </button>
         )}
