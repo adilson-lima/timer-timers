@@ -141,7 +141,7 @@ export function App() {
 
   useEffect(() => {
     if (currentTimer <= TIMER_IN_SECONDS) {
-      setCurrentTimer(currentTimer + 3);
+      setCurrentTimer(currentTimer + 1);
       setShowChart(true);
       updateChart();
     } else {
