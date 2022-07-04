@@ -11,6 +11,12 @@
     "name": "Adilson Pereira Lima",
     "url": "https://github.com/adilson-lima"
   },
+  "build": {
+    "appId": "br.com.adilson-lima.time_timer",
+    "win": {
+      "target": "nsis"
+    }
+  },
   "main": "packages/main/dist/index.cjs",
   "scripts": {
     "build": "npm run build:main && npm run build:preload && npm run build:renderer",
@@ -18,6 +24,7 @@
     "build:preload": "cd ./packages/preload && vite build",
     "build:renderer": "cd ./packages/renderer && vite build",
     "compile": "cross-env MODE=production npm run build && electron-builder build --config .electron-builder.config.js --dir --config.asar=false",
+    "compile_win": "cross-env MODE=production npm run build && electron-builder  build  -mwl --config .electron-builder.config.js --dir --config.asar=false",
     "test": "npm run test:main && npm run test:preload && npm run test:renderer && npm run test:e2e",
     "test:e2e": "vitest run",
     "test:main": "vitest run -r packages/main --passWithNoTests",
