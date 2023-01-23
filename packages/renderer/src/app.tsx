@@ -14,6 +14,9 @@ HighchartsMore(Highcharts);
 SolidGauge(Highcharts);
 
 const TIMER_IN_MINUTES = 25;
+const TIMER_PAUSA_IN_MINUTES = 5;
+
+const TIMER_PAUSA_IN_SECONDS = TIMER_PAUSA_IN_MINUTES * (60 / 3);
 const TIMER_IN_SECONDS = TIMER_IN_MINUTES * (60 / 3);
 
 export function App() {
@@ -151,6 +154,15 @@ export function App() {
       setCurrentTimer(currentTimer + 1);
       setShowChart(true);
       updateChart();
+
+      if (
+        currentTimer >= TIMER_PAUSA_IN_SECONDS &&
+        currentTimer <= TIMER_PAUSA_IN_SECONDS + 1
+      ) {
+        beep();
+        beep();
+        beep();
+      }
     } else {
       setShowChart(false);
       if (
