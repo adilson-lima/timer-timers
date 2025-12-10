@@ -9,8 +9,6 @@
     "isolatedModules": true,
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
-
-    "types" : ["node"],
     "baseUrl": ".",
     "paths": {
       "#preload": [
@@ -20,9 +18,12 @@
         "./src/*"
       ]
     },
-    "lib": ["ESNext", "dom", "dom.iterable"]
+    "lib": [
+      "ESNext",
+      "dom",
+      "dom.iterable"
+    ]
   },
-
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",

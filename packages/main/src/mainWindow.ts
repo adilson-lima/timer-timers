@@ -2,54 +2,61 @@ import { BrowserWindow } from 'electron';
 import { join } from 'path';
 import { URL } from 'url';
 
+// mainWindows.ts
 async function createWindow() {
   const browserWindow = new BrowserWindow({
-    show: false, // Use 'ready-to-show' event to show window
-    // vibrancy: 'under-window',
-
+    show: false,
     visualEffectState: 'active',
     webPreferences: {
-      webviewTag: false, // The webview tag is not recommended. Consider alternatives like iframe or Electron's BrowserView. https://www.electronjs.org/docs/latest/api/webview-tag#warning
+      webviewTag: false,
       preload: join(__dirname, '../../preload/dist/index.cjs'),
-      nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation: false,
+      backgroundThrottling: false, // Adicione isso
     },
     width: 240,
     height: 240,
     frame: false,
     transparent: true,
-    resizable: false
+    resizable: false,
+    skipTaskbar: false,
+    hasShadow: true,
   });
 
-  // Window on top
+  // Garantir que os eventos de mouse funcionem
+  browserWindow.setIgnoreMouseEvents(false);
+
+  // Adicionar listener para garantir eventos após carregar
+  browserWindow.webContents.on('did-finish-load', () => {
+    browserWindow.setIgnoreMouseEvents(false);
+
+    // Injetar CSS para garantir eventos de mouse
+    browserWindow.webContents.insertCSS(`
+      * {
+        -webkit-app-region: no-drag;
+      }
+    `);
+  });
+
   browserWindow.setAlwaysOnTop(true, 'floating', 1);
   browserWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
 
-  /**
-   * If you install `show: true` then it can cause issues when trying to close the window.
-   * Use `show: false` and listener events `ready-to-show` to fix these issues.
-   *
-   * @see https://github.com/electron/electron/issues/25012
-   */
   browserWindow.on('ready-to-show', () => {
     browserWindow?.show();
+    browserWindow?.setIgnoreMouseEvents(false);
 
     if (import.meta.env.DEV) {
       // browserWindow?.webContents.openDevTools();
     }
   });
 
-  /**
-   * URL for main window.
-   * Vite dev server for development.
-   * `file://../renderer/index.html` for production and test
-   */
   const pageUrl =
     import.meta.env.DEV && import.meta.env.VITE_DEV_SERVER_URL !== undefined
       ? import.meta.env.VITE_DEV_SERVER_URL
       : new URL(
-          '../renderer/dist/index.html',
-          'file://' + __dirname
-        ).toString();
+        '../renderer/dist/index.html',
+        'file://' + __dirname
+      ).toString();
 
   await browserWindow.loadURL(pageUrl);
 
