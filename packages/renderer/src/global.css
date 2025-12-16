@@ -25,3 +25,42 @@ body {
   color: var(--gray-300);
   -webkit-font-smoothing: antialiased;
 }
+
+/* Permite arrastar a janela de qualquer lugar */
+html,
+body,
+#root {
+  -webkit-app-region: drag;
+  user-select: none;
+}
+
+/* Remove o drag dos elementos interativos para que funcionem normalmente */
+button,
+input,
+select,
+textarea,
+a,
+label,
+[role="button"],
+[onclick],
+.clickable {
+  -webkit-app-region: no-drag !important;
+  user-select: auto;
+  cursor: pointer;
+}
+
+/* Para divs e spans clicáveis */
+div[onclick],
+span[onclick],
+div[role="button"],
+span[role="button"] {
+  -webkit-app-region: no-drag !important;
+  cursor: pointer;
+}
+
+/* Para componentes com classes que indicam interatividade */
+[class*="button"],
+[class*="btn"],
+[class*="click"] {
+  -webkit-app-region: no-drag !important;
+}
